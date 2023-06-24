@@ -1,8 +1,10 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import pandas as pd
 import sqlite3
 
 app = Flask(__name__)
+CORS(app)
 
 DATABASE = 'listings.db'
 CSV_FILE = 'data.csv'
@@ -13,10 +15,8 @@ def load_data():
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    # Drop the existing table if it exists
     cursor.execute('DROP TABLE IF EXISTS listings')
 
-    # Create the listings table
     cursor.execute('''CREATE TABLE IF NOT EXISTS listings (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         homeDetailUrl TEXT,
@@ -34,7 +34,6 @@ def load_data():
                         streetName TEXT
                         )''')
 
-    # Insert the data into the listings table
     data.to_sql('listings', conn, if_exists='append', index=False)
 
     conn.commit()
