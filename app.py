@@ -19,6 +19,7 @@ def load_data():
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS listings (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Zpid INTEGER,
                         homeDetailUrl TEXT,
                         price_to_rent_ratio REAL,
                         imgSrc TEXT,
@@ -31,7 +32,11 @@ def load_data():
                         bathrooms INTEGER,
                         zipcode TEXT,
                         city TEXT,
-                        streetName TEXT
+                        streetName TEXT,
+                        livingArea INTEGER,
+                        homeType TEXT,
+                        rentZestimate INTEGER,
+                        taxAssessedValue INTEGER
                         )''')
 
     data.to_sql('listings', conn, if_exists='append', index=False)
@@ -51,6 +56,7 @@ def get_listing(listing_id):
     if row:
         listing = {
             'id': row['id'],
+            'Zpid': row['Zpid'],
             'homeDetailUrl': row['homeDetailUrl'],
             'price_to_rent_ratio': row['price_to_rent_ratio'],
             'imgSrc': row['imgSrc'],
@@ -63,7 +69,11 @@ def get_listing(listing_id):
             'bathrooms': row['bathrooms'],
             'zipcode': row['zipcode'],
             'city': row['city'],
-            'streetName': row['streetName']
+            'streetName': row['streetName'],
+            'livingArea': row['livingArea'],
+            'homeType': row['homeType'],
+            'rentZestimate': row['rentZestimate'],
+            'taxAssessedValue': row['taxAssessedValue']
         }
         return jsonify(listing)
     else:
@@ -82,6 +92,7 @@ def get_all_listings():
     for row in rows:
         listing = {
             'id': row['id'],
+            'Zpid': row['Zpid'],
             'homeDetailUrl': row['homeDetailUrl'],
             'price_to_rent_ratio': row['price_to_rent_ratio'],
             'imgSrc': row['imgSrc'],
@@ -94,7 +105,11 @@ def get_all_listings():
             'bathrooms': row['bathrooms'],
             'zipcode': row['zipcode'],
             'city': row['city'],
-            'streetName': row['streetName']
+            'streetName': row['streetName'],
+            'livingArea': row['livingArea'],
+            'homeType': row['homeType'],
+            'rentZestimate': row['rentZestimate'],
+            'taxAssessedValue': row['taxAssessedValue']
         }
         listings.append(listing)
 
